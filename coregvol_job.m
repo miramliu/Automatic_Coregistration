@@ -17,7 +17,7 @@ totaltimes = varargin{2}; %how many time points
 times = transpose(1:totaltimes); %so 1:60
 
 
-for i =2:totaltimes
+for i =2:totaltimes %now go through every single time point and coregister it to the first time point. 
     matlabbatch{1}.cfg_basicio.file_dir.file_ops.cfg_named_file.name = 'vol';
     num = num2str(times(i),'%.0f');
     matlabbatch{1}.cfg_basicio.file_dir.file_ops.cfg_named_file.files = {{targetpath}};

@@ -1,6 +1,8 @@
 # Automatic_Coregistration
-Automatic coregistration for DSC perfusion scans. Requires previous installation of SPM12_v1776
-Mira Liu 4/7/2022
+Automatic coregistration for DSC perfusion scans. 
+Requires previous installation of SPM12_v1776.
+
+Mira Liu 4/7/2022.
 
 
 This code involves automatic co-registration for T1-bookend method DSC perfusion scans. 
@@ -36,14 +38,13 @@ Function Description:
 
 # for LLPre and LLPost dicoms
 Use calling function DSCPerfusion_Motion Correction() to convert the pre and post dicoms to nii files. 
-
 Use the function T1_DSCcoregistration() to estimate the zoom and rotation degree of T1Post compared to T1Pre
 
 ## Input: 
     path to T1Pre nii file
     path to T1Post nii file
 
-#Output: 
+## Output: 
     GUI to adjust the T1Post and see overlay compared to T1Pre to estimate zoom and rotation needed (see slider values)
 
 
