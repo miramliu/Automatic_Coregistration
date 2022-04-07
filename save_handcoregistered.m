@@ -4,8 +4,11 @@
 %mira liu march 2022
 
 function save_handcoregistered(varargin)
-dcmpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_testing_2/P001/'; %varargin{1}; %path to original folder '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_testing_2/P001/'
-totalimages = 256;%varargin{2}; %256
+dcmpath = varargin{1}; %'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_testing_2/P001/';  %path to original folder 
+totalimages = varargin{2}; %256
+Z = varargin{3}; %25; %zoom of 25, rotation of -15 for pt2 (see SummaryOfResults20220405)
+rotation = varargin{4};% -15;
+
 
 olddcmpath = [dcmpath 'LLPost_notCoreg']; %create new folder
 if ~ exist(olddcmpath, 'dir')
@@ -15,9 +18,7 @@ if ~ exist(olddcmpath, 'dir')
 end
 fprintf('Created new folder, now rewriting...\n')
 
-%zoom of 15, rotation of -15 for pt2 (see SummaryOfResults20220405) can make it varible input later!!!
-Z = 25;
-rotation = -15;
+
 if 1%numel(dir([dcmpath '/IR_LL_EPI_POST/'])) <=2
     tic
     for i = 1:totalimages

@@ -12,7 +12,8 @@ targetpath = varargin{1};
 totalslices = varargin{2};%25;
 totaltimes = varargin{3};%60;
 
-if strcmp(varargin{4},'ep2dperf') == 1 %if it's perfusion scan that we want to get the 4d volume for
+%if it's perfusion scan that we want to get the 4d volume for
+if strcmp(varargin{4},'ep2dperf') == 1 
     fulltargetpath = [targetpath 'ep2d_perf/'];
     dscdir = dir([fulltargetpath '/*.dcm']); %get all dcm files (in folder P00N)
 
@@ -29,16 +30,6 @@ if strcmp(varargin{4},'ep2dperf') == 1 %if it's perfusion scan that we want to g
     
     %get all the friggen slices(i.e. going throughh 1500 images jumping by 120
     slices = transpose(1:totalslices);
-    %{
-    k = 1;
-    for i = 1:totaltimes:totalimages
-        imagepath = string(fullfile(fulltargetpath,dscdirsorted(i))); %path to ith image
-        info = dicominfo(imagepath);
-        slicenum = double(info.(dicomlookup('0020','0013'))); %get slice number
-        slices(k) = slicenum; %add it
-        k = k+1;
-    end
-    %}
     
     %now get all the time points (i.e 1-60 as each slice has all of the timme points lined up in order from DSc sort . ipynb)
     times = zeros(totaltimes,1);
@@ -64,7 +55,7 @@ if strcmp(varargin{4},'ep2dperf') == 1 %if it's perfusion scan that we want to g
     end
     toc
     fprintf('done\n')
-
+% if it's T1Pre and T1Post we want to coregister
 elseif strcmp(varargin{4}, 'LLPre') == 1 || strcmp(varargin{4}, 'LLPost') == 1
     if strcmp(varargin{4}, 'LLPre') == 1
         fulltargetpath = [targetpath 'IR_LL_EPI_PRE/'];
@@ -82,7 +73,7 @@ elseif strcmp(varargin{4}, 'LLPre') == 1 || strcmp(varargin{4}, 'LLPost') == 1
         error('check number of slices and time points\nImage number does not match\n')
     end
     [nx,ny] = size(dicomread(string(fullfile(fulltargetpath,dscdirsorted(1))))); %get image dimensions
-    fprintf('Going through acquiredimages...\n')
+    fprintf('Going through acquired images...\n')
     times = transpose(1:totaltimes); %this is total numer of images taken over time (for t1 calc, so dicom header saves it as 'image number')
     
     fprintf('creating 4d array now....\n')
@@ -100,7 +91,7 @@ elseif strcmp(varargin{4}, 'LLPre') == 1 || strcmp(varargin{4}, 'LLPost') == 1
         fourDarray(:,:,slicenumidx,timenumidx) = image; %make that image for the corresponding slice and time 
     end
     toc
-    fprintf('done\n')
+    fprintf('Done\n')
 
 else
     error('\nis this for ep2dperf, LLPre, or LLPost?\n')

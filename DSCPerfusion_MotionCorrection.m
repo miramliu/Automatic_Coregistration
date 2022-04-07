@@ -48,10 +48,12 @@ if strcmp(scantype,'ep2dperf')== 1
 elseif strcmp(scantype,'LLPre')== 1
     fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPre');
     niftiwrite(fourDarray,[niftipath 'LLPre/' ptname '_LLPre4d.nii'])
+    fprintf('Now use T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
 
 elseif strcmp(scantype, 'LLPost')==1
     fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPost');
     niftiwrite(fourDarray,[niftipath 'LLPost/' ptname '_LLPost4d.nii'])
+    fprintf('Now use T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
 
 
 

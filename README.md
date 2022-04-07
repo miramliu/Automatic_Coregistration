@@ -1,2 +1,5 @@
 # Automatic_Coregistration
- Automacit coregistration fo DSc perfusion scans. Requires previous installation of SPM12
+ Automatic coregistration for DSC perfusion scans. Requires previous installation of SPM12_v1776
+
+
+
