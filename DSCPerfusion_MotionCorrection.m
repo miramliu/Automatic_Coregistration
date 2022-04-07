@@ -36,25 +36,50 @@ totaltimes = varargin{5}; % 60
 scantype = varargin{6}; % 'ep2dperf'
 
 if strcmp(scantype,'ep2dperf')== 1
-    %make 4d array from original dicoms
-    fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'ep2dperf');
-    niftiwrite(fourDarray,[niftipath 'DSCPerf/' ptname '_dsc4d.nii'])
-    
-    %coregister from that 4d nifti to the first time point
-    coregvol_job([niftipath ptname '_dsc4d.nii'],totaltimes)
+
+    %first check to make sure this hasn't been done yet
+    niiperfpath = [niftipath '/DSCPerf/'];
+    if ~ exist([niiperfpath ptname '_dsc4d.nii'], 'file')
+        %make 4d array from original dicoms
+        fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'ep2dperf');
+        %save this 4d array in a new folder for nii
+        if ~ exist(niiperfpath,'dir')
+            mkdir(niiperfpath)
+        end
+        niftiwrite(fourDarray,[niiperfpath ptname '_dsc4d.nii']); %save this as the 4D volume in the perf folder (named pt2_dsc4d)
+    end
+
+    %check to make sure coregistration hasn't occured yet
+    if ~exist([niiperfpath 'r' num2str(totaltimes,'%.0f') ptname '_dsc4d.nii'], 'file') %if last time point hasn't been coregistered
+        %coregister from that saved 4d nifti to the first time point
+        coregvol_job([niiperfpath ptname '_dsc4d.nii'],totaltimes)
+    end
     
     %save coregistered files
-    save4dvol_motioncorrection(dcmpath,niftipath,ptname,totalslices,totaltimes)
+    if ~ exist([dcmpath 'ep2d_perf_notCoreg/'],'dir') || ~ exist([dcmpath 'ep2d_perf/' num2str(totalslices*totaltimes,'%.0f') '.dcm'], 'file') %if the last dcm file doesn't exist
+        save4dvol_motioncorrection(dcmpath,niiperfpath,ptname,totalslices,totaltimes)
+    end
+
+
 elseif strcmp(scantype,'LLPre')== 1
-    fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPre');
-    niftiwrite(fourDarray,[niftipath 'LLPre/' ptname '_LLPre4d.nii'])
-    fprintf('Now use T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
+    if ~ exist ([niftipath 'LLPre/' ptname '_LLPre4d.nii'], 'file')
+        fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPre');
+        if ~ exist([niftipath 'LLPre/'],'dir')
+            mkdir([niftipath 'LLPre/'])
+        end
+        niftiwrite(fourDarray,[niftipath 'LLPre/' ptname '_LLPre4d.nii'])
+    end
+    fprintf('If both LLPre and Post have been converted to 4D nii files...\nUse T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
 
 elseif strcmp(scantype, 'LLPost')==1
-    fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPost');
-    niftiwrite(fourDarray,[niftipath 'LLPost/' ptname '_LLPost4d.nii'])
-    fprintf('Now use T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
-
+    if ~ exist([niftipath 'LLPost/' ptname '_LLPost4d.nii'],'file')
+        fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPost');
+        if ~ exist([niftipath 'LLPost/'],'dir')
+            mkdir([niftipath 'LLPost/'])
+        end
+        niftiwrite(fourDarray,[niftipath 'LLPost/' ptname '_LLPost4d.nii'])
+    end
+    fprintf('If both LLPre and Post have been converted to 4D nii files...\nUse T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
 
 
 

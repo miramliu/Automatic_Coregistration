@@ -58,12 +58,12 @@ classdef T1_DSCcoregistration < matlab.apps.AppBase
             % this is for looking at dsc motion correction of T1 Pre and T1 Post
             if nargin == 3
                 %read in one 4d nifti (but make 3d volume)
-                LLPre_niftipath = varargin{2};%'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/LLPre/pt2_LLPre4d.nii';
+                LLPre_niftipath = varargin{1};%'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/LLPre/pt2_LLPre4d.nii';
                 apple = niftiread(LLPre_niftipath);
                 app.dsc = squeeze(apple(:,:,1,:)); %one slice, but scroll throgh time points
     
                 %read in the co-registered (in theory) nifti (again 3d volume) 
-                LLPost_niftipath = varargin{3};%'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/LLPost/pt2_LLPost4d.nii';
+                LLPost_niftipath = varargin{2};%'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/LLPost/pt2_LLPost4d.nii';
                 orange = niftiread(LLPost_niftipath);
                 app.spect = squeeze(orange(:,:,1,:)); %one slice, but scroll through time points
     
@@ -71,7 +71,7 @@ classdef T1_DSCcoregistration < matlab.apps.AppBase
                 app.dsc_slicenum = size(app.dsc,3); % number of slices (assuming x,y,slice)
                 app.spect_slicenum = size(app.spect,3); % number of slices (assuming x,y,slice)
             else
-                error('input 1) path to LLPre and 2) path to LLPost')
+                error('input 1) path to LLPre nii file and 2) path to LLPost nii file')
             end
 
             % show dsc on left panel
@@ -200,12 +200,12 @@ classdef T1_DSCcoregistration < matlab.apps.AppBase
         function createComponents(app, varargin)
             if nargin == 3
                 %read in one 4d nifti (but make 3d volume)
-                LLPre_niftipath = varargin{2};%'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/LLPre/pt2_LLPre4d.nii';
+                LLPre_niftipath = varargin{1};%'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/LLPre/pt2_LLPre4d.nii';
                 apple = niftiread(LLPre_niftipath);
                 app.dsc = squeeze(apple(:,:,1,:)); %one slice, but scroll throgh time points
     
                 %read in the co-registered (in theory) nifti (again 3d volume) 
-                LLPost_niftipath = varargin{3};%'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/LLPost/pt2_LLPost4d.nii';
+                LLPost_niftipath = varargin{2};%'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/LLPost/pt2_LLPost4d.nii';
                 orange = niftiread(LLPost_niftipath);
                 app.spect = squeeze(orange(:,:,1,:)); %one slice, but scroll through time points
     

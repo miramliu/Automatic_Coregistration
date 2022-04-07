@@ -1,10 +1,10 @@
-%takes in dcm images, rotates and zooms them, and then rewrites them as dicoms again.... 
-%done for the LLPre and LLpost that can't really be coregistered automatically using the other 'DSCPerusion" stuff. 
-%register Post to Pre
-%mira liu march 2022
+% takes in dcm images, rotates and zooms them, and then rewrites them as dicoms again with correct header info... 
+% done for LLpost that can't really be coregistered automatically using the other 'DSCPerusion" stuff. 
+% register Post to Pre
+% mira liu march 2022
 
 function save_handcoregistered(varargin)
-dcmpath = varargin{1}; %'/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_testing_2/P001/';  %path to original folder 
+dcmpath = varargin{1}; %path to original folder 
 totalimages = varargin{2}; %256
 Z = varargin{3}; %25; %zoom of 25, rotation of -15 for pt2 (see SummaryOfResults20220405)
 rotation = varargin{4};% -15;
@@ -19,7 +19,7 @@ end
 fprintf('Created new folder, now rewriting...\n')
 
 
-if 1%numel(dir([dcmpath '/IR_LL_EPI_POST/'])) <=2
+if numel(dir([dcmpath '/IR_LL_EPI_POST/'])) <=2 %if it's empty
     tic
     for i = 1:totalimages
         k = num2str(i);

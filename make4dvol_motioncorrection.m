@@ -14,10 +14,11 @@ totaltimes = varargin{3};%60;
 
 %if it's perfusion scan that we want to get the 4d volume for
 if strcmp(varargin{4},'ep2dperf') == 1 
-    fulltargetpath = [targetpath 'ep2d_perf/'];
+    fulltargetpath = [targetpath '/ep2d_perf/'];
     dscdir = dir([fulltargetpath '/*.dcm']); %get all dcm files (in folder P00N)
-
+    
     tic
+    fprintf('Now analyzing %s ...\n',fulltargetpath)
     dscdirsorted = {dscdir.name};
     dscdirsorted = natsortfiles(dscdirsorted); %sort in order
 
@@ -40,7 +41,7 @@ if strcmp(varargin{4},'ep2dperf') == 1
         times(i) = timenum; %add it
     end
     
-    fprintf('\ncreating 4d array now\n')
+    fprintf('Creating 4d array now\n')
     %create an array in order (of 4d volumes, 3d volumes over time)
     fourDarray = zeros(nx,ny,totalslices,totaltimes); %created empty 4d array
     for i = 1:size(dscdirsorted,2) %for all of the dsc files
