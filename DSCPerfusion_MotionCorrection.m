@@ -1,6 +1,6 @@
 %% Calling function for automatic coregistration of DSC perfusion images.
 % Mira Liu March 2022 
-% Runction decomposition used to coregister DSC Perfusion scans (ep2d_perf) 
+% Function decomposition used to coregister DSC Perfusion scans (ep2d_perf) 
 % Requirements: written on Matlab2021b, requires installation of SPM12_1776
 % Function Description: 
 % Input: 
@@ -40,7 +40,7 @@ if strcmp(scantype,'ep2dperf')== 1
     fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'ep2dperf');
     niftiwrite(fourDarray,[niftipath 'DSCPerf/' ptname '_dsc4d.nii'])
     
-    %coregister from that 4d nifti
+    %coregister from that 4d nifti to the first time point
     coregvol_job([niftipath ptname '_dsc4d.nii'],totaltimes)
     
     %save coregistered files
