@@ -11,7 +11,7 @@ It also assumes that the three types of MR scans have been previously sorted aft
 # for ep2dperf dicoms
 Use calling function "DSCPerfusion_MotionCorrection"
 
-### This function does the following:\
+### This function does the following:
 First convert the dicom images into a 4d volume (series of 3D volumes over time) and write it as a nifti in the nifti folder.\
 Then coregister those sequential 3D volumes to the FIRST 3D volume (using SPM)\
 Then move the un-coregistered files to another folder, save those coregistered files as dicoms in the original folder numbered correctly with the proper headers from the original dicoms. 
