@@ -28,9 +28,9 @@
 
 %% inputs:
 spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_SPECT_sorted/00001_a1437614501db4a9.dcm';
-spectsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_niftis/SPECT/';
+spectsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_niftis/SPECT/;
 dscpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
-dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_niftis/DSCPerf/';
+dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_niftis/DSCPerf/pt3_dsc.nii';
 
 
 %% SPECT cropping and resizing
@@ -43,10 +43,9 @@ maxslicerange = 68; %what is highest slice with SPECT signal of interest
 spect_cropped = spect(rmpixels:end-rmpixels,rmpixels:end-rmpixels,minslicerange:maxslicerange);
 pt_spect = imresize3(spect_cropped,[128 128 maxslicerange-minslicerange+1]); 
 pt_spect = flip(imrotate(pt_spect,270),3); %flip upsidedown! commmennt out if SPECT is correct side up
-if ~ exist(spectsavepath,'dir')
-    makedir(spectsavepath)
-end
-niftiwrite(pt_spect,[spectsavepath, 'pt3_spect.nii']);
+if ~ exist("spectsavepath")
+    makedir("spectsavepath")
+niftiwrite(pt_spect,spectsavepath);
 
 %pt2: zoom = 55, from 8 - 41
 %pt3: zoom = 55, from 29 - 68
@@ -55,9 +54,6 @@ niftiwrite(pt_spect,[spectsavepath, 'pt3_spect.nii']);
 
 %% DSC cropping and resizing
 load(dscpath,'images')
-pt_perf = imrotate(images{15},270);
-if ~ exist(dscsavepath, 'dir')
-    makedir(dscsavepath)
-end
-niftiwrite(pt_perf,[dscsavepath 'pt3_dsc.nii']);
+pt6_perf = imrotate(images{15},270);
+niftiwrite(pt6_perf,dscsavepath);
 

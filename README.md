@@ -106,3 +106,6 @@ Use the function Save_handcoregistered() to save coregistered dicoms with proper
     Z = 25;
     rotation = -15;
     >> save_handcoregistered(dcmpath,totalimages,Z,rotation)
+
+# SpectResizing
+This code is just for coregistering SPECT to post-processed DSC. See the file SpectResizing.m for more info!
