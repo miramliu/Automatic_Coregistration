@@ -27,29 +27,61 @@
 
 
 %% inputs:
-spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_SPECT_sorted/00001_a1437614501db4a9.dcm';
-spectsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_niftis/SPECT/';
-dscpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
-dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt3/pt3_niftis/DSCPerf/';
+spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt7/pt7_SPECT_sorted/00001_b5d8a4b294582301.dcm';
+spectsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt7/pt7_niftis/SPECT/';
+dscpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt7/pt7_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
+dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt7/pt7_niftis/DSCPerf/';
 
 
 %% SPECT cropping and resizing
 spect = dicomread(spectpath);
+[spectx,specty,spectz] = size(spect);
+%this is the number of pixel rows (i.e. number of 'up' and 'down' or 'left' and 'right' in which to move the spect image BEFORE zooming. follows cartesian grid i.e. negative is left and down. for example, 2 pixel rows down, and 3 pixel rows to the left is [-3,-2] 
+leftright = 0; 
+updown = -13;
 Zoom = 55; %what is zoom seen on coregister_setup
 rmpixels = Zoom/2;
-minslicerange = 29; %what is lowest slice with sPECT signal of interest
-maxslicerange = 68; %what is highest slice with SPECT signal of interest
+minslicerange = 37; %what is lowest slice with sPECT signal of interest
+maxslicerange = 66; %what is highest slice with SPECT signal of interest
 
-spect_cropped = spect(rmpixels:end-rmpixels,rmpixels:end-rmpixels,minslicerange:maxslicerange);
+if leftright < 0 %if it's negative, move to the left 'leftright' number of pixels
+    newim = spect(:,-leftright:end,:);
+    zeropad = zeros(spectz,-leftright,spectz);
+    spectshift = [newim zeropad];
+elseif leftright > 0
+    newim = pect(:,1:end-leftright,:); %if it's positive, move to the right 'leftright' number of pixels
+    zeropad = zeros(spectx,leftright,spectz);
+    spectshift = [zeropad newim];
+else
+    spectshift = spect;
+end
+
+if updown < 0 %move it down
+    newim = spectshift(1:end-(-updown), :,:);
+    zeropad = zeros(-updown, specty, spectz);
+    spectshift = [zeropad;newim];
+elseif updown > 0 %move it up!
+    newim = spectshift(updown:end,:,:);
+    zeropad = zeros(updown:end,:,:);
+    spectshift = [newim;zeropad];
+else
+    spectshift = spect;
+end
+
+
+
+
+spect_cropped = spectshift(rmpixels:end-rmpixels,rmpixels:end-rmpixels,minslicerange:maxslicerange);
 pt_spect = imresize3(spect_cropped,[128 128 maxslicerange-minslicerange+1]); 
 pt_spect = flip(imrotate(pt_spect,270),3); %flip upsidedown! commmennt out if SPECT is correct side up
 if ~ exist(spectsavepath,'dir')
-    makedir(spectsavepath)
+    mkdir(spectsavepath)
 end
-niftiwrite(pt_spect,[spectsavepath, 'pt3_spect.nii']);
+niftiwrite(pt_spect,[spectsavepath, 'pt7_spect.nii']);
 
 %pt2: zoom = 55, from 8 - 41
 %pt3: zoom = 55, from 29 - 68
+%pt7: zoom = 55, from 37 - 66, updown =  -13
 
 
 
@@ -57,7 +89,7 @@ niftiwrite(pt_spect,[spectsavepath, 'pt3_spect.nii']);
 load(dscpath,'images')
 pt_perf = imrotate(images{15},270);
 if ~ exist(dscsavepath, 'dir')
-    makedir(dscsavepath)
+    mkdir(dscsavepath)
 end
-niftiwrite(pt_perf,[dscsavepath 'pt3_dsc.nii']);
+niftiwrite(pt_perf,[dscsavepath 'pt7_dsc.nii']);
 
