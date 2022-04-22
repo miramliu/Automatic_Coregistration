@@ -27,29 +27,29 @@
 
 
 %% inputs:
-spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt7/pt7_SPECT_sorted/00001_b5d8a4b294582301.dcm';
-spectsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt7/pt7_niftis/SPECT/';
-dscpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt7/pt7_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
-dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt7/pt7_niftis/DSCPerf/';
+spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt4/pt4_SPECT_sorted/00001_807d1589e351e59d.dcm';
+spectsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt4/pt4_niftis/SPECT/';
+dscpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt4/pt4_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
+dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt4/pt4_niftis/DSCPerf/';
 
 
 %% SPECT cropping and resizing
 spect = dicomread(spectpath);
 [spectx,specty,spectz] = size(spect);
 %this is the number of pixel rows (i.e. number of 'up' and 'down' or 'left' and 'right' in which to move the spect image BEFORE zooming. follows cartesian grid i.e. negative is left and down. for example, 2 pixel rows down, and 3 pixel rows to the left is [-3,-2] 
-leftright = 0; 
-updown = -13;
-Zoom = 55; %what is zoom seen on coregister_setup
-rmpixels = Zoom/2;
-minslicerange = 37; %what is lowest slice with sPECT signal of interest
-maxslicerange = 66; %what is highest slice with SPECT signal of interest
+leftright = 2; 
+updown = -1;
+Zoom = 55; %what is zoom 3een on coregister_setup
+rmpixels = round(Zoom/2);
+minslicerange = 58; %what is lowest slice with sPECT signal of interest
+maxslicerange = 90; %what is highest slice with SPECT signal of interest
 
 if leftright < 0 %if it's negative, move to the left 'leftright' number of pixels
     newim = spect(:,-leftright:end,:);
     zeropad = zeros(spectz,-leftright,spectz);
     spectshift = [newim zeropad];
 elseif leftright > 0
-    newim = pect(:,1:end-leftright,:); %if it's positive, move to the right 'leftright' number of pixels
+    newim = spect(:,1:end-leftright,:); %if it's positive, move to the right 'leftright' number of pixels
     zeropad = zeros(spectx,leftright,spectz);
     spectshift = [zeropad newim];
 else
@@ -77,11 +77,12 @@ pt_spect = flip(imrotate(pt_spect,270),3); %flip upsidedown! commmennt out if SP
 if ~ exist(spectsavepath,'dir')
     mkdir(spectsavepath)
 end
-niftiwrite(pt_spect,[spectsavepath, 'pt7_spect.nii']);
+niftiwrite(pt_spect,[spectsavepath, 'pt4_spect.nii']);
 
 %pt2: zoom = 55, from 8 - 41
 %pt3: zoom = 55, from 29 - 68
-%pt7: zoom = 55, from 37 - 66, updown =  -13
+%pt4: zoom 55, from 58 - 90, %changed to 50 - 93 bc spm was being really weird... lets spm reslice better perhaps? NOPE still off. 
+%pt7: zoom = 55, from 35 - 66, updown =  -13
 
 
 
@@ -91,5 +92,5 @@ pt_perf = imrotate(images{15},270);
 if ~ exist(dscsavepath, 'dir')
     mkdir(dscsavepath)
 end
-niftiwrite(pt_perf,[dscsavepath 'pt7_dsc.nii']);
+niftiwrite(pt_perf,[dscsavepath 'pt4_dsc.nii']);
 
