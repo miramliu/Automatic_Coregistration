@@ -17,7 +17,7 @@ Then coregister those sequential 3D volumes to the FIRST 3D volume (using SPM)\
 Then move the un-coregistered files to another folder, save those coregistered files as dicoms in the original folder numbered correctly with the proper headers from the original dicoms. 
 
 
-Function decomposition used to coregister DSC Perfusion scans (ep2d_perf)\ 
+Function decomposition used to coregister DSC Perfusion scans (ep2d_perf)\
 Requirements: written on Matlab2021b, requires installation of SPM12_1776\
 Function Description: 
 ## Input: 
