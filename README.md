@@ -49,7 +49,7 @@ Function Description:
 # for LLPre and LLPost dicoms
 Use calling function DSCPerfusion_Motion Correction() to convert the pre and post dicoms to nii files. \
 Use the function T1_DSCcoregistration() to estimate the zoom and rotation degree of T1Post compared to T1Pre\
-Use the function Save_handcoregistered() to save coregistered dicoms with proper headers
+If it requires adjustment, use the function Save_handcoregistered() to save coregistered dicoms with proper headers
 
 
 
@@ -84,7 +84,7 @@ Use the function Save_handcoregistered() to save coregistered dicoms with proper
 ### Output: 
     GUI to adjust the T1Post and see overlay compared to T1Pre to estimate zoom and rotation needed (see slider values)
 
-### Exammple run: 
+### Example run: 
     pre_path = '/Debugging/pt2_nii/LLPre/pt2_LLPre4d.nii';
     post_path = '/Debuggin/pt2_nii/LLPost/pt2_LLPost4d.nii';
     >> T1_DSCcoregistration(pre_path,post_path)
