@@ -17,7 +17,7 @@ Then coregister those sequential 3D volumes to the FIRST 3D volume (using SPM)\
 Then move the un-coregistered files to another folder, save those coregistered files as dicoms in the original folder numbered correctly with the proper headers from the original dicoms. 
 
 
-Function decomposition used to coregister DSC Perfusion scans (ep2d_perf)\ 
+Function decomposition used to coregister DSC Perfusion scans (ep2d_perf)\
 Requirements: written on Matlab2021b, requires installation of SPM12_1776\
 Function Description: 
 ## Input: 
@@ -49,7 +49,7 @@ Function Description:
 # for LLPre and LLPost dicoms
 Use calling function DSCPerfusion_Motion Correction() to convert the pre and post dicoms to nii files. \
 Use the function T1_DSCcoregistration() to estimate the zoom and rotation degree of T1Post compared to T1Pre\
-Use the function Save_handcoregistered() to save coregistered dicoms with proper headers
+If it requires adjustment, use the function Save_handcoregistered() to save coregistered dicoms with proper headers
 
 
 
@@ -84,7 +84,7 @@ Use the function Save_handcoregistered() to save coregistered dicoms with proper
 ### Output: 
     GUI to adjust the T1Post and see overlay compared to T1Pre to estimate zoom and rotation needed (see slider values)
 
-### Exammple run: 
+### Example run: 
     pre_path = '/Debugging/pt2_nii/LLPre/pt2_LLPre4d.nii';
     post_path = '/Debuggin/pt2_nii/LLPost/pt2_LLPost4d.nii';
     >> T1_DSCcoregistration(pre_path,post_path)
