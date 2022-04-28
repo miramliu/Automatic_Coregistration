@@ -24,7 +24,7 @@ if strcmp(varargin{4},'ep2dperf') == 1
 
     totalimages = totalslices*totaltimes;
     if totalimages ~= size(dscdirsorted,2)
-        error('check number of slices and time points\nImage number does not match\n')
+        error('check number of slices and time points. Image number does not match.')
     end
     [nx,ny] = size(dicomread(string(fullfile(fulltargetpath,dscdirsorted(1))))); %get image dimensions
     fprintf('Going through slices and time points...\n')

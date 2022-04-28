@@ -62,22 +62,22 @@ if strcmp(scantype,'ep2dperf')== 1
 
 
 elseif strcmp(scantype,'LLPre')== 1
-    if ~ exist ([niftipath 'LLPre/' ptname '_LLPre4d.nii'], 'file')
+    if ~ exist ([niftipath '/LLPre/' ptname '_LLPre4d.nii'], 'file')
         fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPre');
-        if ~ exist([niftipath 'LLPre/'],'dir')
-            mkdir([niftipath 'LLPre/'])
+        if ~ exist([niftipath '/LLPre/'],'dir')
+            mkdir([niftipath '/LLPre/'])
         end
-        niftiwrite(fourDarray,[niftipath 'LLPre/' ptname '_LLPre4d.nii'])
+        niftiwrite(fourDarray,[niftipath '/LLPre/' ptname '_LLPre4d.nii'])
     end
     fprintf('If both LLPre and Post have been converted to 4D nii files...\nUse T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
 
-elseif strcmp(scantype, 'LLPost')==1
-    if ~ exist([niftipath 'LLPost/' ptname '_LLPost4d.nii'],'file')
+elseif strcmp(scantype, '/LLPost')==1
+    if ~ exist([niftipath '/LLPost/' ptname '_LLPost4d.nii'],'file')
         fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPost');
-        if ~ exist([niftipath 'LLPost/'],'dir')
-            mkdir([niftipath 'LLPost/'])
+        if ~ exist([niftipath '/LLPost/'],'dir')
+            mkdir([niftipath '/LLPost/'])
         end
-        niftiwrite(fourDarray,[niftipath 'LLPost/' ptname '_LLPost4d.nii'])
+        niftiwrite(fourDarray,[niftipath '/LLPost/' ptname '_LLPost4d.nii'])
     end
     fprintf('If both LLPre and Post have been converted to 4D nii files...\nUse T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
 
