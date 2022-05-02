@@ -25,6 +25,7 @@
     % spectnewpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/SPECT/rpt2_spect.nii'
     % >> coregistration_setup(dscsavepath,spectnewpath,1)
 
+% Mira Liu May 02 2022
 
 %% inputs:
 spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt4/pt4_SPECT_sorted/00001_807d1589e351e59d.dcm';
