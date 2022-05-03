@@ -47,7 +47,7 @@ maxslicerange = 90; %what is highest slice with SPECT signal of interest
 
 if leftright < 0 %if it's negative, move to the left 'leftright' number of pixels
     newim = spect(:,-leftright:end,:);
-    zeropad = zeros(spectz,-leftright,spectz);
+    zeropad = zeros(spectx,-leftright,spectz);
     spectshift = [newim zeropad];
 elseif leftright > 0
     newim = spect(:,1:end-leftright,:); %if it's positive, move to the right 'leftright' number of pixels
@@ -63,7 +63,7 @@ if updown < 0 %move it down
     spectshift = [zeropad;newim];
 elseif updown > 0 %move it up!
     newim = spectshift(updown:end,:,:);
-    zeropad = zeros(updown:end,:,:);
+    zeropad = zeros(updown, specty, spectz);
     spectshift = [newim;zeropad];
 else
     spectshift = spect;
