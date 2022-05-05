@@ -49,9 +49,17 @@ if strcmp(varargin{4},'ep2dperf') == 1
         info = dicominfo(imagepath);
         image = dicomread(imagepath);
         slicenum = double(info.(dicomlookup('0020','0013')));
+        disp(dscdirsorted(i));
+        slicenum = mod(slicenum-1,totalslices)+1;
         timenum = str2double(info.(dicomlookup('0008', '0033')));
         slicenumidx = find(slices == slicenum); %find WHICH SLICE NUMMBER (should match slicenum, but just to be sure)
-        timenumidx = find(times == timenum); %find which of the time points (in order) this is
+        timenumidx = dscdirsorted(i);
+        timenumidx = timenumidx{1};
+        timenumidx = timenumidx(1:end-4);
+        timenumidx = str2num(timenumidx);
+        timenumidx = mod(timenumidx-1,totaltimes)+1; %find which of the time points (in order) this is
+        fprintf('\n slice idx %.0f \n',slicenumidx);
+        fprintf('\n time idx %.0f \n',timenumidx);
         fourDarray(:,:,slicenumidx,timenumidx) = image; %make that image for the corresponding slice and time 
     end
     toc
