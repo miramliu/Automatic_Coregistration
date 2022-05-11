@@ -1,7 +1,7 @@
 # Automatic_Coregistration
 Automatic coregistration for DSC perfusion scans. \
 Requires previous installation of SPM12_v1776, https://www.fil.ion.ucl.ac.uk/spm/software/ \
-Mira Liu 4/7/2022. 
+Mira Liu 5/10/2022. 
 
 
 This code involves automatic co-registration for T1-bookend method DSC perfusion scans. \
@@ -108,4 +108,32 @@ If it requires adjustment, use the function Save_handcoregistered() to save core
     >> save_handcoregistered(dcmpath,totalimages,Z,rotation)
 
 # SpectResizing
-This code is just for coregistering SPECT to post-processed DSC. See the file SpectResizing.m for more info!
+This code is just for coregistering SPECT to post-processed DSC. 
+This is code written for coregistration of DSC to SPECT in ICAD study
+STEPS: 
+1.	VIEW_COREGISTRATION(dscpath,spectpath, 'qCBF matdcm')
+    a.	THIS ALLOWS YOU TO BY EYE ZOOM IN AND CROP, CHOOSE THE SUBSECT OF SPECT SLICES THAT MATCH THE RANGE OF DSC SLICES
+    b. input path to post-processed DS P001.mat and path to raw spect dcm.
+    e.g. 
+        >> dcmpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
+        >> spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_SPECT_sorted/00001_7d86dd681e6f9e68.dcm';
+        >> View_Coregistration(dscpath,spectpath, 'qCBF matdcm')
+    record zoom, min slice range and max slice range for use in spectresizing.m
+
+2.	SPECTRESIZING.M (that's this code right here)
+    a.	THIS ALLOWS YOU TO CROP, CHOOSE SLICES, ROTATE THE SPECT (and dsc) TO MATCH EACH OTHER AND THEN EXPORT THEM AS NIFTI FILES
+    b. make sure to change the inputs shown at the top of the file
+
+3.	SPM
+    a.	NOW COREGISTER THESE IMAGES, OUTPUTS rptN_spect.nii
+    b. click co register: estimate & reslice. 
+    c. choose reference image as the DSC nifti file SpectResizing matlab script creates.
+    d. choose source image as the SPECT nifti file SpectResizing matlab script creates. 
+
+4.	VIEW_COREGISTRATION(dscsavepath,spectsavepath, 'qCBF matdcm')
+    a.	THIS ALLOWS YOU TO COMPARE NOW THE DSC AND THE COREGISTERED SPECT FILE AND CHECK TO MAKE SURE IT WORKED 
+    b. new spect should be the same as saved path, but with r in front (e.g. pt2_spect.nii -> rpt2_spect.nii)
+    e.g. 
+        >> dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/DSCPerf/pt2_dsc.nii';
+        >> spectnewpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/SPECT/rpt2_spect.nii'
+        >> View_Coregistration(dscsavepath,spectnewpath,'qCBF niinii')
