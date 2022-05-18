@@ -6,9 +6,9 @@
 function DDCorr_comparison(varargin)
 ptnum = varargin{1};
 
-load(['/Users/neuroimaging/Desktop/DATA/ASVD/Pt', ptnum, '/pt', ptnum '_DSC_sorted/Result_MSwcf2/P001GE_M.mat'],'images','image_names')
+load(['/Users/neuroimaging/Desktop/DATA/ASCVD/Pt', ptnum, '/pt', ptnum '_DSC_sorted/Result_MSwcf2/P001GE_M.mat'],'images','image_names')
 qCBF=images{strcmpi(image_names,'qCBF_nSVD')};
-load(['/Users/neuroimaging/Desktop/DATA/ASVD/Pt', ptnum, '/pt', ptnum, '_DDcorr/Result_MSwcf2/P001GE_M_DDCorr.mat'],'images', 'image_names')
+load(['/Users/neuroimaging/Desktop/DATA/ASCVD/Pt', ptnum, '/pt', ptnum, '_DDcorr/Result_MSwcf2/P001GE_M_DDCorr.mat'],'images', 'image_names')
 qCBF_DDcorr=images{strcmpi(image_names,'qCBF_nSVD')};
 
 View_Coregistration(qCBF,qCBF_DDcorr,'matmat difference')
