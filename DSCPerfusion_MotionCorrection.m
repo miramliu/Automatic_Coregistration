@@ -71,7 +71,7 @@ elseif strcmp(scantype,'LLPre')== 1
     end
     fprintf('If both LLPre and Post have been converted to 4D nii files...\nUse T1_DSCcoregistration to get zoom and rotation degree of the 4D nii by hand\n')
 
-elseif strcmp(scantype, '/LLPost')==1
+elseif strcmp(scantype, 'LLPost')==1
     if ~ exist([niftipath '/LLPost/' ptname '_LLPost4d.nii'],'file')
         fourDarray = make4dvol_motioncorrection(dcmpath,totalslices,totaltimes,'LLPost');
         if ~ exist([niftipath '/LLPost/'],'dir')
