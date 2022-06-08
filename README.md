@@ -34,7 +34,7 @@ Function Description:
 
 
 ### Example run:
-    Assuming saved folder of dicoms in /Debugging/pt2_DSC_sorted/P001/
+    Assuming saved folder of dicoms in /Debugging/pt2_DSC_sorted/P001
     dcmpath = '/Debugging/pt2_DSC_sorted/P001/';
     niftipath = /Debugging/pt2_nii';
     ptname = 'pt2';

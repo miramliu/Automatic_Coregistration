@@ -14,7 +14,7 @@ totaltimes = varargin{5}; %how mmany time points
 olddscpath = [dscpath 'ep2d_perf_notCoreg']; %create new folder
 if ~ exist(olddscpath, 'dir')
     mkdir (olddscpath) %create new folder
-    movefile([dscpath 'ep2d_perf/' '*.dcm'], olddscpath) %move all original dicoms to old dscpath
+    movefile([dscpath '/ep2d_perf/' '*.dcm'], olddscpath) %move all original dicoms to old dscpath
 end
 fprintf('Created new folder, now rewriting\n')
 
@@ -44,7 +44,7 @@ if numel(dir([dscpath '/ep2d_perf/'])) <=2
                 %now save it as correct number dicom, get dicom header info from original dicom, and export into new folder
                 k = num2str(totaltimes*(j - 1) + i,'%.0f'); %so for example, the 62nd image is 60*(slice 2 - 1) + 2
                 metadata = dicominfo([olddscpath '/' k '.dcm']); %load data for the kth dcm image
-                dicomwrite(nii_2d,[dscpath 'ep2d_perf/' k '.dcm'],metadata) %write data for the kth dcm image in original folder
+                dicomwrite(nii_2d,[dscpath '/ep2d_perf/' k '.dcm'],metadata) %write data for the kth dcm image in original folder
             end
         end
     end

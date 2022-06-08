@@ -14,7 +14,7 @@ totaltimes = varargin{3};%60;
 
 %if it's perfusion scan that we want to get the 4d volume for
 if strcmp(varargin{4},'ep2dperf') == 1 
-    fulltargetpath = [targetpath '/ep2d_perf/'];
+    fulltargetpath = [targetpath '/ep2d_perf'];
     dscdir = dir([fulltargetpath '/*.dcm']); %get all dcm files (in folder P00N)
     
     tic
@@ -49,7 +49,7 @@ if strcmp(varargin{4},'ep2dperf') == 1
         info = dicominfo(imagepath);
         image = dicomread(imagepath);
         slicenum = double(info.(dicomlookup('0020','0013')));
-        disp(dscdirsorted(i));
+        %disp(dscdirsorted(i));
         slicenum = mod(slicenum-1,totalslices)+1;
         timenum = str2double(info.(dicomlookup('0008', '0033')));
         slicenumidx = find(slices == slicenum); %find WHICH SLICE NUMMBER (should match slicenum, but just to be sure)
@@ -58,8 +58,8 @@ if strcmp(varargin{4},'ep2dperf') == 1
         timenumidx = timenumidx(1:end-4);
         timenumidx = str2num(timenumidx);
         timenumidx = mod(timenumidx-1,totaltimes)+1; %find which of the time points (in order) this is
-        fprintf('\n slice idx %.0f \n',slicenumidx);
-        fprintf('\n time idx %.0f \n',timenumidx);
+        %fprintf('\n slice idx %.0f \n',slicenumidx);
+        %fprintf('\n time idx %.0f \n',timenumidx);
         fourDarray(:,:,slicenumidx,timenumidx) = image; %make that image for the corresponding slice and time 
     end
     toc
