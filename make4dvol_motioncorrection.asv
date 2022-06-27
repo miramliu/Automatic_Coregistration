@@ -30,8 +30,7 @@ if strcmp(varargin{4},'ep2dperf') == 1
     fprintf('Going through slices and time points...\n')
     
     %get all the friggen slices(i.e. going throughh 1500 images)
-    %slices = transpose(1:totalslices);
-    slice = 0; %start off at slice = 1, corrected June 27th 2022
+    slices = transpose(1:totalslices);
     
     %now get all the time points (i.e 1-60 as each slice has all of the timme points lined up in order from DSc sort . ipynb)
     times = zeros(totaltimes,1);
@@ -49,24 +48,22 @@ if strcmp(varargin{4},'ep2dperf') == 1
         imagepath = string(fullfile(fulltargetpath,dscdirsorted(i))); %path to ith image
         info = dicominfo(imagepath);
         image = dicomread(imagepath);
+        disp(dscdirsorted(i))
         %slicenum = double(info.(dicomlookup('0020','0013')))
-        slicenum = dscdirsorted(i);
+        slicenum = dscdirsorted(i)
         slicenum = slicenum{1};
         slicenum = slicenum(1:end-4); % get rid of.dcm
         slicenum = str2num(slicenum); %make number
-        if mod(slicenum-1,totaltimes)+1 == 1
-            slice = slice+1; %every time it reaches a multiple of 60, it's a new slice.
-        %else, it's in the same slice
-        end
-        slicenumidx = slice;
+        if mod(slicenum-1,totaltimes)+1 = 1
+            
         %timenum = str2double(info.(dicomlookup('0008', '0033')));
         timenumidx = dscdirsorted(i);
         timenumidx = timenumidx{1};
         timenumidx = timenumidx(1:end-4);
         timenumidx = str2num(timenumidx);
         timenumidx = mod(timenumidx-1,totaltimes)+1; %find which of the time points (in order) this is
-        %fprintf('slice idx %.0f \n',slicenumidx);
-        %fprintf('time idx %.0f \n\n',timenumidx);
+        fprintf('slice idx %.0f \n',slicenumidx);
+        fprintf('time idx %.0f \n\n',timenumidx);
         fourDarray(:,:,slicenumidx,timenumidx) = image; %make that image for the corresponding slice and time 
     end
     toc
