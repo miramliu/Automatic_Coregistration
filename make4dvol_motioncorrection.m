@@ -49,12 +49,14 @@ if strcmp(varargin{4},'ep2dperf') == 1
         imagepath = string(fullfile(fulltargetpath,dscdirsorted(i))); %path to ith image
         info = dicominfo(imagepath);
         image = dicomread(imagepath);
-        %slicenum = double(info.(dicomlookup('0020','0013')))
+        %disp(dscdirsorted(i))
+        %disp(double(info.(dicomlookup('0020','0013'))))
         slicenum = dscdirsorted(i);
         slicenum = slicenum{1};
+        fprintf('For image:  %s\n',slicenum)
         slicenum = slicenum(1:end-4); % get rid of.dcm
         slicenum = str2num(slicenum); %make number
-        if mod(slicenum-1,totaltimes)+1 == 1
+        if mod(slicenum-1,totaltimes)+1 == 1 %still gotta check and fix this... blech
             slice = slice+1; %every time it reaches a multiple of 60, it's a new slice.
         %else, it's in the same slice
         end
@@ -65,12 +67,18 @@ if strcmp(varargin{4},'ep2dperf') == 1
         timenumidx = timenumidx(1:end-4);
         timenumidx = str2num(timenumidx);
         timenumidx = mod(timenumidx-1,totaltimes)+1; %find which of the time points (in order) this is
-        %fprintf('slice idx %.0f \n',slicenumidx);
-        %fprintf('time idx %.0f \n\n',timenumidx);
+        
+        fprintf('slice idx %.0f \n',slicenumidx);
+        fprintf('time idx %.0f \n\n',timenumidx);
         fourDarray(:,:,slicenumidx,timenumidx) = image; %make that image for the corresponding slice and time 
+        
     end
+    %save("Users/neuroimaging/Desktop/fourDarray.m",fourDarray)
+    %print(slicenumidx)
     toc
     fprintf('done\n')
+
+
 % if it's T1Pre and T1Post we want to coregister
 elseif strcmp(varargin{4}, 'LLPre') == 1 || strcmp(varargin{4}, 'LLPost') == 1
     if strcmp(varargin{4}, 'LLPre') == 1

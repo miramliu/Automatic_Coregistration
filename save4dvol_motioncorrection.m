@@ -31,7 +31,7 @@ if numel(dir([dscpath '/ep2d_perf/'])) <=2
             prefix = ['r' num]; %rtimepoint
             niftiname = [prefix ptname '_dsc4d.nii']; %for example, pt 2 time point 10, should be r10pt2_dsc4d.nii
             nii_t = niftiread(fullfile(niftipath,niftiname)); %read in the 3D volume of the nifti at a given time point
-            nii_3d = squeeze(nii_t(:,:,:,i)); %get the time of interest, this is now 3D
+            nii_3d = squeeze(nii_t(:,:,:,i)); %get the time of interest, this is now 3D all slices, so all slices at time point 10
         end
         %now separate it into slices
         for j = 1:totalslices
