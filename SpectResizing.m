@@ -1,6 +1,6 @@
 %% This is code written for coregistration of DSC to SPECT in ICAD study
 % STEPS: 
-%1.	COREGISTER_SETUP(dscpath,spectpath)
+%1.	View_Coregistration(dscpath,spectpath,'qCBF matdcm')
     %a.	THIS ALLOWS YOU TO BY EYE ZOOM IN AND CROP, CHOOSE THE SUBSECT OF SPECT SLICES THAT MATCH THE RANGE OF DSC SLICES
     %b. input path to post-processed DS P001.mat and path to raw spect dcm.
     %e.g. dcmpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
@@ -18,7 +18,7 @@
     %c. choose reference image as the DSC nifti file this matlab script creates.
     %d. choose source image as the SPECT nifti file this matlab script creates. 
 
-%4.	COREGISTER_SETUP(dscsavepath,spectsavepath)
+%4.	View_Coregistration(dscsavepath,spectsavepath,'qCBF niinii')
     %a.	THIS ALLOWS YOU TO COMPARE NOW THE DSC AND THE COREGISTERED SPECT FILE AND CHECK TO MAKE SURE IT WORKED 
     %b. new spect should be the same as saved path, but with r in front (e.g. pt2_spect.nii -> rpt2_spect.nii)
     %e.g. dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_niftis/DSCPerf/pt2_dsc.nii';
