@@ -11,7 +11,7 @@ totalslices = varargin{4}; %how many slices
 totaltimes = varargin{5}; %how mmany time points
 
 %create new directory for coregistered dicoms to be put and move originals to 'old' folder
-olddscpath = [dscpath 'ep2d_perf_notCoreg']; %create new folder
+olddscpath = [dscpath 'ep2d_perf_Orig']; %create new folder
 if ~ exist(olddscpath, 'dir')
     mkdir (olddscpath) %create new folder
     movefile([dscpath '/ep2d_perf/' '*.dcm'], olddscpath) %move all original dicoms to old dscpath
