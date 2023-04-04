@@ -82,15 +82,22 @@ if strcmp(varargin{4},'ep2dperf') == 1
 % if it's T1Pre and T1Post we want to coregister
 elseif strcmp(varargin{4}, 'LLPre') == 1 || strcmp(varargin{4}, 'LLPost') == 1
     if strcmp(varargin{4}, 'LLPre') == 1
-        fulltargetpath = [targetpath 'IR_LL_EPI_PRE/'];
+        fulltargetpath = [targetpath 'LL_EPI_PRE'];
         dscdir = dir([fulltargetpath '/*.dcm']); %get all dcm files (in folder P00N)
+
+        
     elseif strcmp(varargin{4}, 'LLPost') == 1
-        fulltargetpath = [targetpath 'IR_LL_EPI_POST/'];
+        fulltargetpath = [targetpath 'LL_EPI_POST']; %sometimes IR or LL
         dscdir = dir([fulltargetpath '/*.dcm']); %get all dcm files (in folder P00N)
+
     end
     tic
     dscdirsorted = {dscdir.name};
-    dscdirsorted = natsortfiles(dscdirsorted); %sort in order
+    try
+        dscdirsorted = natsortfiles(dscdirsorted); %sort in order
+    catch
+        error('check LL EPI folder name, does it have IR?')
+    end
 
     totalimages = totalslices*totaltimes;
     if totalimages ~= size(dscdirsorted,2)

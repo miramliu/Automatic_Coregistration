@@ -115,7 +115,7 @@ STEPS:
     a.	THIS ALLOWS YOU TO BY EYE ZOOM IN AND CROP, CHOOSE THE SUBSECT OF SPECT SLICES THAT MATCH THE RANGE OF DSC SLICES
     b. input path to post-processed DS P001.mat and path to raw spect dcm.
     e.g. 
-        >> dcmpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
+        >> dscpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
         >> spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt2/pt2_SPECT_sorted/00001_7d86dd681e6f9e68.dcm';
         >> View_Coregistration(dscpath,spectpath, 'qCBF matdcm')
     record zoom, min slice range and max slice range for use in spectresizing.m

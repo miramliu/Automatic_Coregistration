@@ -28,10 +28,10 @@
 % Mira Liu May 02 2022
 
 %% inputs:
-spectpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt1/pt1_SPECT_sorted/00001_95b949774cf98972.dcm';
-spectsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt1/pt1_niftis/SPECT/';
-dscpath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt1/pt1_DSC_sorted/Result_MSwcf2/P001GE_M.mat';
-dscsavepath = '/Users/neuroimaging/Desktop/DATA/ASVD/Pt1/pt1_niftis/DSCPerf/';
+spectpath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt8/pt8_SPECT_sorted/00001_2e4cd4291de4a789.dcm';
+spectsavepath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt8/pt8_niftis/SPECT/';
+dscpath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt8/pt8_DSC_Processed/Result_MSwcf2/P001GE_M.mat';
+dscsavepath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt8/pt8_niftis/DSCPerf/';
 
 
 %% SPECT cropping and resizing
@@ -39,11 +39,12 @@ spect = dicomread(spectpath);
 [spectx,specty,spectz] = size(spect);
 %this is the number of pixel rows (i.e. number of 'up' and 'down' or 'left' and 'right' in which to move the spect image BEFORE zooming. follows cartesian grid i.e. negative is left and down. for example, 2 pixel rows down, and 3 pixel rows to the left is [-3,-2] 
 leftright = 2; 
-updown = -3;
+updown = -6;
 Zoom = 55; %what is zoom 3een on coregister_setup
 rmpixels = round(Zoom/2);
-minslicerange = 48; %what is lowest slice with sPECT signal of interest
-maxslicerange = 78; %what is highest slice with SPECT signal of interest
+minslicerange = 13; %what is lowest slice with sPECT signal of interest
+maxslicerange = 46; %what is highest slice with SPECT signal of interest
+%pt8: zoom = 55, from  13 - 46, leftright = 2, updown = -6
 
 if leftright < 0 %if it's negative, move to the left 'leftright' number of pixels
     newim = spect(:,-leftright:end,:);
@@ -76,21 +77,28 @@ pt_spect = flip(imrotate(pt_spect,270),3); %flip upsidedown! commment out if SPE
 if ~ exist(spectsavepath,'dir')
     mkdir(spectsavepath)
 end
-niftiwrite(pt_spect,[spectsavepath, 'pt1_spect.nii']);
+niftiwrite(pt_spect,[spectsavepath, 'pt8_spect.nii']);
 
-%pt1: zoom = 55, from 48 - 78, leftright = 2, updown = -3
+%pt8: zoom = 55, from 48 - 78, leftright = 2, updown = -3
 %pt2: zoom = 55, from 8 - 41
 %pt3: zoom = 55, from 29 - 68
-%pt4: zoom 55, from 58 - 90, %changed to 50 - 93 bc spm was being really weird... lets spm reslice better perhaps? NOPE still off. 
+%pt4: zoom = 55, from 58 - 90, %changed to 50 - 93 bc spm was being really weird... lets spm reslice better perhaps? NOPE still off. 
+%pt6: zoom = 55 ? 
 %pt7: zoom = 55, from 35 - 66, updown =  -13
+%pt8: zoom = 55, from  13 - 46, leftright = 2, updown = -6
 
 
 
 %% DSC cropping and resizing
 load(dscpath,'images')
-pt_perf = imrotate(images{15},270);
+try
+    pt_perf = imrotate(images{15},270);
+catch
+    pt_perf = imrotate(images.DD.CBF_SVD,270);
+end
+
 if ~ exist(dscsavepath, 'dir')
     mkdir(dscsavepath)
 end
-niftiwrite(pt_perf,[dscsavepath 'pt1_dsc.nii']);
+niftiwrite(pt_perf,[dscsavepath 'pt8_dsc.nii']);
 
