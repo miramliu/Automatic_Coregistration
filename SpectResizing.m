@@ -28,23 +28,34 @@
 % Mira Liu May 02 2022
 
 %% inputs:
-spectpath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt8/pt8_SPECT_sorted/00001_2e4cd4291de4a789.dcm';
-spectsavepath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt8/pt8_niftis/SPECT/';
-dscpath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt8/pt8_DSC_Processed/Result_MSwcf2/P001GE_M.mat';
-dscsavepath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt8/pt8_niftis/DSCPerf/';
+ptnum = '10';
+spectpath = '/Users/neuroimaging/Desktop/DATA/ICAD/Pt10/pt10_SPECT_sorted/00001_4c356637d5e856cd.dcm';
+spectsavepath = ['/Users/neuroimaging/Desktop/DATA/ICAD/Pt',ptnum, '/pt',ptnum,'_niftis/SPECT/'];
+dscpath ='/Users/neuroimaging/Desktop/DATA/ICAD/Pt10/pt10_DSC_Processed/Result_MSwcf2/Results_cropped.mat';
+dscsavepath = ['/Users/neuroimaging/Desktop/DATA/ICAD/Pt',ptnum,'/pt',ptnum,'_niftis/DSCPerf/'];
 
 
 %% SPECT cropping and resizing
 spect = dicomread(spectpath);
 [spectx,specty,spectz] = size(spect);
 %this is the number of pixel rows (i.e. number of 'up' and 'down' or 'left' and 'right' in which to move the spect image BEFORE zooming. follows cartesian grid i.e. negative is left and down. for example, 2 pixel rows down, and 3 pixel rows to the left is [-3,-2] 
-leftright = 2; 
+leftright = 1; 
 updown = -6;
 Zoom = 55; %what is zoom 3een on coregister_setup
 rmpixels = round(Zoom/2);
-minslicerange = 13; %what is lowest slice with sPECT signal of interest
-maxslicerange = 46; %what is highest slice with SPECT signal of interest
+minslicerange = 49; %what is lowest slice with SPECT signal of interest
+maxslicerange = 90; %what is highest slice with SPECT signal of interest
+
+
+%pt1: zoom = 55, from 48 - 78, leftright = 2, updown = -3
+%pt2: zoom = 55, from 8 - 41
+%pt3: zoom = 55, from 29 - 68
+%pt4: zoom = 55, from 58 - 90, %changed to 50 - 93 bc spm was being really weird... lets spm reslice better perhaps? NOPE still off. 
+%pt6: zoom = 55 ? 
+%pt7: zoom = 55, from 35 - 66, updown =  -13
 %pt8: zoom = 55, from  13 - 46, leftright = 2, updown = -6
+%pt10: zoom m= 55, from 42 - 76, leftright = 1, updown = -5
+%% pt 10 coregistration is just not working. 
 
 if leftright < 0 %if it's negative, move to the left 'leftright' number of pixels
     newim = spect(:,-leftright:end,:);
@@ -76,16 +87,15 @@ pt_spect = imresize3(spect_cropped,[128 128 maxslicerange-minslicerange+1]);
 pt_spect = flip(imrotate(pt_spect,270),3); %flip upsidedown! commment out if SPECT is correct side up
 if ~ exist(spectsavepath,'dir')
     mkdir(spectsavepath)
+else
+    if ~isempty(dir(spectsavepath))
+        disp('overwriting nii files')
+    end
 end
-niftiwrite(pt_spect,[spectsavepath, 'pt8_spect.nii']);
+disp('saving SPECT nii files')
+niftiwrite(pt_spect,[spectsavepath, 'pt',ptnum,'_spect.nii']);
 
-%pt8: zoom = 55, from 48 - 78, leftright = 2, updown = -3
-%pt2: zoom = 55, from 8 - 41
-%pt3: zoom = 55, from 29 - 68
-%pt4: zoom = 55, from 58 - 90, %changed to 50 - 93 bc spm was being really weird... lets spm reslice better perhaps? NOPE still off. 
-%pt6: zoom = 55 ? 
-%pt7: zoom = 55, from 35 - 66, updown =  -13
-%pt8: zoom = 55, from  13 - 46, leftright = 2, updown = -6
+
 
 
 
@@ -100,5 +110,8 @@ end
 if ~ exist(dscsavepath, 'dir')
     mkdir(dscsavepath)
 end
-niftiwrite(pt_perf,[dscsavepath 'pt8_dsc.nii']);
+disp('saving DSC nii files')
+niftiwrite(pt_perf,[dscsavepath 'pt',ptnum,'_dsc.nii']);
+
+disp('done!')
 
